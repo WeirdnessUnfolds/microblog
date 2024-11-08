@@ -31,3 +31,4 @@ services:
       - ./app:/app/app
       - ./tests:/app/tests
     command: ./make_test.sh
+
