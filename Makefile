@@ -79,12 +79,10 @@ add-ssh:
 	eval `ssh-agent -s`
 	ssh-add <path/too/ssh-key>
 
-
-
-# Runs Bandit command for route app/
+# Runs bandit command for route app/
 .PHONY: bandit
 bandit:
-	bandit -r app/ || true
+	@bandit -r app/ || exit 1
 
 .PHONY: dockle
 dockle:
