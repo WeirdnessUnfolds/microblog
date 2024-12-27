@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/python-app.yml
   sec_check:
     name: Security check
-    uses:  ./.github/workflows/security-check.yml
+    uses:  ./.github/workflows/security-checks.yml
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
