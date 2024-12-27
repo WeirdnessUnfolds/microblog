@@ -30,7 +30,7 @@ jobs:
       contents: read
       attestations: write
       id-token: write
-    needs: call_tests
+    needs: [call_tests, sec_check] 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
