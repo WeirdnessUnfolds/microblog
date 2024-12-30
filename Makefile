@@ -85,10 +85,8 @@ bandit:
 	@bandit -r app/ || exit 1
 
 .PHONY: dockle
-dockle:
-	dockle --exit-code 1 docker/Dockerfile_prod 2>&1 | grep -E 'FATAL|INFO' | sort
-
-
+	@DOCKER_CONTENT_TRUST=1 docker build -t microblog . -f docker/Dockerfile_prod
+	@dockle --exit-code 1 microblog 2>&1 | grep -E 'FATAL|INFO' | sort
 
 
 # target: info                         - Displays versions.
