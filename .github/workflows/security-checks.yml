@@ -2,7 +2,7 @@ name: Security Checks
 
 on:
   workflow_dispatch:   # Allows manual triggering of the workflow
-
+  workflow_call:
 jobs:
   security-checks:
     runs-on: ubuntu-latest

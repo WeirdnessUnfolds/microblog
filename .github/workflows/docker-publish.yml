@@ -19,6 +19,9 @@ jobs:
   call_tests:
     name: Call build and tests
     uses: ./.github/workflows/python-app.yml
+  sec_check:
+    name: Security check
+    uses:  ./.github/workflows/security-checks.yml
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -27,7 +30,7 @@ jobs:
       contents: read
       attestations: write
       id-token: write
-    needs: call_tests
+    needs: [call_tests, sec_check] 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
