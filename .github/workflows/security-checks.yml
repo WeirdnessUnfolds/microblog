@@ -2,72 +2,49 @@ name: Security Checks
 
 on:
   workflow_dispatch:   # Allows manual triggering of the workflow
-
+  workflow_call:
 jobs:
   security-checks:
     runs-on: ubuntu-latest
-
-    services:
-      docker:
-        image: docker:latest
-        options: --privileged
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      # Step 3: Clean Docker/containerd and residual packages
-      - name: Clean Docker/containerd and residual packages
+      # Step 2: Install Docker using official script
+      - name: Install Docker using official script
         run: |
-          sudo apt-get clean
-          sudo apt-get autoremove -y
-          sudo apt-get update -qq
-          sudo apt-get purge -y docker* containerd* runc
-          sudo rm -rf /etc/docker /var/lib/docker /var/run/docker.sock /var/lib/containerd
-          sudo apt-mark unhold containerd.io || true
-          sudo apt-get autoremove -y
-          sudo apt-get clean
-          sudo apt-get install -f
+          curl -fsSL https://get.docker.com | sudo sh
 
-      # Step 4: Install Docker and containerd.io
-      - name: Install Docker from Ubuntu repo
+      # Step 3: Start Docker manually if needed
+      - name: Start Docker manually
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y docker.io
+          sudo dockerd --host=unix:///var/run/docker.sock &
+          sleep 10  # Wait for Docker to start
 
-      # Step 5: Start Docker Daemon
-      - name: Start Docker Daemon
-        run: |
-          sudo systemctl daemon-reexec
-          sudo systemctl start docker
-          sudo systemctl enable docker
-          sudo systemctl status docker
-
-      # Step 6: Verify Docker is running
+      # Step 4: Verify Docker is running
       - name: Verify Docker
         run: |
           docker info
           docker --version
-
-      # Step 7: Create and initialize virtual environment
+      - name: Uninstall any existing setuptools
+        run: |
+          pip uninstall -y setuptools
+      # Step 5: Create and initialize virtual environment
       - name: Create and initialize virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
 
-      # Step 8: Install dependencies from requirements.txt
+      # Step 6: Install dependencies from requirements.txt
       - name: Install dependencies
         run: |
           source venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 9: Install security tools (Bandit, Dockle, Trivy)
+      # Step 7: Install security tools (Bandit, Dockle, Trivy)
       - name: Install security tools
         run: |
           source venv/bin/activate
@@ -86,20 +63,25 @@ jobs:
           # Install Trivy (Docker image security scanner)
           curl -sL https://github.com/aquasecurity/trivy/releases/download/v0.58.0/trivy_0.58.0_Linux-64bit.tar.gz | sudo tar xz -C /usr/local/bin
 
-      # Step 10: Run Bandit Security Scan
+      # Step 8: Run Bandit Security Scan
       - name: Run Bandit Security Scan
         run: |
           source venv/bin/activate
           make bandit
+        continue-on-error: false
 
-      # Step 11: Run Trivy Image Scan
+      # Step 9: Run Trivy Image Scan
       - name: Run Trivy Image Scan
         run: |
           source venv/bin/activate
           make image-scan
+        continue-on-error: false
         
-      # Step 12: Run Dockle Security Scan
+      # Step 10: Run Dockle Security Scan
       - name: Run Dockle Security Scan
+        env: 
+          DOCKER_CONTENT_TRUST: 1
         run: |
           source venv/bin/activate
           make dockle
+        continue-on-error: false

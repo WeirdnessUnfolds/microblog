@@ -23,7 +23,7 @@ jobs:
     - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
-        python-version: "3.11.9" 
+        python-version: "3.12" 
     - name: Create and initialize virtual environment
       run: |
         python -m venv venv

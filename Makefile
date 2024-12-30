@@ -79,18 +79,15 @@ add-ssh:
 	eval `ssh-agent -s`
 	ssh-add <path/too/ssh-key>
 
-
-
-# Runs Bandit command for route app/
+# Runs bandit command for route app/
 .PHONY: bandit
 bandit:
-	bandit -r app/ || true
+	@bandit -r app/ || exit 1
 
 .PHONY: dockle
 dockle:
-	dockle --exit-code 1 weirdnessunfolds/devops:v11.1.0 2>&1 | grep -E 'FATAL|INFO' | sort
-
-
+	@DOCKER_CONTENT_TRUST=1 docker build -t microblog . -f docker/Dockerfile_prod
+	@dockle --exit-code 1 microblog 2>&1 | grep -E 'FATAL|INFO' | sort
 
 
 # target: info                         - Displays versions.
