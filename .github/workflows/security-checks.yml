@@ -79,6 +79,8 @@ jobs:
         
       # Step 10: Run Dockle Security Scan
       - name: Run Dockle Security Scan
+        env: 
+          DOCKER_CONTENT_TRUST: 1
         run: |
           source venv/bin/activate
           make dockle
