@@ -13,6 +13,7 @@ from flask_login import LoginManager
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 from app.config import ProdConfig, RequestFormatter
+from honeybadger.contrib import FlaskHoneybadger
 
 
 
