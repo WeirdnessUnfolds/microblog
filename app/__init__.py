@@ -12,9 +12,9 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
-from app.config import ProdConfig, RequestFormatter
+from honeybadger import honeybadger
 from honeybadger.contrib import FlaskHoneybadger
-
+from app.config import ProdConfig, RequestFormatter
 
 
 db = SQLAlchemy()
@@ -26,14 +26,16 @@ bootstrap = Bootstrap()
 moment = Moment()
 
 
-
 def create_app(config_class=ProdConfig):
     """
     Create flask app, init addons, blueprints and setup logging
     """
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    app.config['HONEYBADGER_ENVIRONMENT'] = 'production'
+    app.config['HONEYBADGER_API_KEY'] = 'hbp_5XaZqr1qua70CNaT03ygs2f7RQWjGR3O3zDO'
+    app.config['HONEYBADGER_PARAMS_FILTERS'] = 'password, secret, credit-card'
+    FlaskHoneybadger(app, report_exceptions=True)
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
