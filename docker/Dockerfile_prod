@@ -8,6 +8,15 @@ COPY app app
 COPY migrations migrations
 COPY requirements requirements
 COPY requirements.txt microblog.py boot.sh ./
+RUN apk add --no-cache \
+    gcc \
+    musl-dev \
+    libffi-dev \
+    openssl-dev \
+    cargo \
+    make \
+    linux-headers \
+    python3-dev
 
 RUN <<-EOF
     python -m venv .venv
@@ -21,5 +30,5 @@ ENV FLASK_APP=microblog.py
 USER microblog
 
 EXPOSE 5000
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:5000/ || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:8000/ || exit 1
 ENTRYPOINT ["./boot.sh"]

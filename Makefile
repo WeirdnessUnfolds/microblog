@@ -243,5 +243,5 @@ fs-scan:
 target: image-scan                     - Scan the image with Trivy
 .PHONY: image-scan
 image-scan:
-	@docker build -t microblog . -f docker/Dockerfile_prod
+	@DOCKER_CONTENT_TRUST=1 docker build -t microblog . -f docker/Dockerfile_prod
 	@trivy image microblog
