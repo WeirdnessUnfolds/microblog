@@ -54,4 +54,27 @@ sg_groups:
             access: Allow
             priority: 1002
             direction: Inbound
+            source_address_prefix: '{{ groups["appserver1"][0] }}/32' 
+        -   name: MYSQL1
+            protocol: Tcp
+            destination_port_range: 3306
+            access: Allow
+            priority: 1003
+            direction: Inbound
+            source_address_prefix: '{{ groups["appserver2"][0] }}/32'
+    -   name: monitor
+        port_rules:
+        -   name: SSH
+            protocol: Tcp
+            destination_port_range: 22
+            access: Allow
+            priority: 1001
+            direction: Inbound
+            source_address_prefix: '0.0.0.0/0'
+        -   name: PROMETHEUS
+            protocol: Tcp
+            destination_port_range: 9090
+            access: Allow
+            priority: 1002
+            direction: Inbound
             source_address_prefix: '0.0.0.0/0'
