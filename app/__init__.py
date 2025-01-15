@@ -14,9 +14,11 @@ from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 from honeybadger import honeybadger
 from honeybadger.contrib import FlaskHoneybadger
+from prometheus_flask_exporter.multiprocess  import GunicornInternalPrometheusMetrics
 from app.config import ProdConfig, RequestFormatter
 
 
+metrics = GunicornInternalPrometheusMetrics.for_app_factory()
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
@@ -36,6 +38,8 @@ def create_app(config_class=ProdConfig):
     app.config['HONEYBADGER_API_KEY'] = 'hbp_5XaZqr1qua70CNaT03ygs2f7RQWjGR3O3zDO'
     app.config['HONEYBADGER_PARAMS_FILTERS'] = 'password, secret, credit-card'
     FlaskHoneybadger(app, report_exceptions=True)
+
+    metrics.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
