@@ -35,5 +35,8 @@ jobs:
     - name: Install development dependencies
       run: make install-dev
     - name: Run tests
+      env:
+        PROMETHEUS_MULTIPROC_DIR: /tmp
       run: |
+        mkdir -p /tmp
         make test

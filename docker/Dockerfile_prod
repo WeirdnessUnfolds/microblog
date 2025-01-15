@@ -26,8 +26,9 @@ RUN <<-EOF
 EOF
 
 ENV FLASK_APP=microblog.py
-
 USER microblog
+
+ENV PROMETHEUS_MULTIPROC_DIR /tmp
 
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl --fail http://localhost:8000/ || exit 1
