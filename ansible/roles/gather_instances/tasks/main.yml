@@ -27,6 +27,9 @@
     when: item.tags.PublicIP is defined and item.power_state == "running"
 
 
+- name: Display groups after adding instances to hosts
+  debug:
+    var: groups
 
 -   name: Display all variables/facts known for a host
     debug:

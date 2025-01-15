@@ -116,4 +116,4 @@ def test_version_route(client):
     assert b"<h1>Version</h1>" in response.data
     
     # Check that the rendered page contains the version information
-    assert b"Current Version: weirdnessunfolds/devops:11.1.0" in response.data
+    assert b"Current Version: weirdnessunfolds/devops:11.2.0" in response.data

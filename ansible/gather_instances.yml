@@ -7,3 +7,10 @@
         - azure.azcollection
     roles:
         - gather_instances
+
+# Steg 5: Skapa säkerhetsgrupper
+- name: Create security groups
+  hosts: local
+  gather_facts: false
+  roles:
+    - security_groups
