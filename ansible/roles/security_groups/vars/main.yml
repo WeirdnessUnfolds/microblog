@@ -78,3 +78,10 @@ sg_groups:
             priority: 1002
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'
+        -   name: GRAFANA
+            protocol: Tcp
+            destination_port_range: 3000
+            access: Allow
+            priority: 1003
+            direction: Inbound
+            source_address_prefix: '0.0.0.0/0'
