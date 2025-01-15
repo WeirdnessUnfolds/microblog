@@ -13,4 +13,4 @@ Setuptools==70.0.0
 blinker==1.9
 honeybadger==0.20.2
 psutil
-prometheus-flask-exporter==0.18.5
+prometheus-flask-exporter==0.23.1
