@@ -30,7 +30,7 @@ jobs:
           docker --version
       - name: Uninstall any existing setuptools
         run: |
-          pip uninstall -y setuptools
+          sudo pip uninstall -y setuptools
       # Step 5: Create and initialize virtual environment
       - name: Create and initialize virtual environment
         run: |
