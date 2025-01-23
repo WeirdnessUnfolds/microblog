@@ -5,3 +5,11 @@
     dest: prometheus.yml
 
 
+- name: Copy nginx config files to the server5
+  template:
+    src: files/alertmanager.yml
+    dest: alertmanager.yml
+
+
+
+
