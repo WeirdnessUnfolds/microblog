@@ -1,0 +1,18 @@
+
+- name: Copy nginx config files to the server
+  template:
+    src: files/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+
+name: Setup prometheus
+hosts: monitor
+remote_user: deploy
+become: yes
+become_method: sudo
+roles:
+    - role: prometheus.prometheus.prometheus
+      vars:
+          promethus_config_file: /etc/prometheus/prometheus.yml
+
+
+
