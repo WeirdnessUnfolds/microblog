@@ -1,0 +1,7 @@
+
+- name: Copy nginx config files to the server
+  template:
+    src: files/prometheus.yml
+    dest: prometheus.yml
+
+

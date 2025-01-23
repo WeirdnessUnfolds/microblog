@@ -71,17 +71,24 @@ sg_groups:
             priority: 1001
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'
-        -   name: PROMETHEUS
-            protocol: Tcp
-            destination_port_range: 9090
-            access: Allow
-            priority: 1002
-            direction: Inbound
-            source_address_prefix: '0.0.0.0/0'
         -   name: GRAFANA
             protocol: Tcp
             destination_port_range: 3000
             access: Allow
             priority: 1003
+            direction: Inbound
+            source_address_prefix: '0.0.0.0/0'
+        -   name: ALERTMANAGER
+            protocol: Tcp
+            destination_port_range: 9093
+            access: Allow
+            priority: 1004
+            direction: Inbound
+            source_address_prefix: '0.0.0.0/0'
+        -   name: PROMETHEUS
+            protocol: Tcp
+            destination_port_range: 9090
+            access: Allow
+            priority: 1005
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'

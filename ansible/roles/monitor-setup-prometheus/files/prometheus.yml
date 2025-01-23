@@ -1,0 +1,8 @@
+global:
+  #Ändra till 30 sekunder minst
+  scrape_interval: 30s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["0.0.0.0:9090"]
