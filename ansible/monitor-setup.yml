@@ -15,33 +15,27 @@
     - role: prometheus.prometheus.prometheus
       vars:
           prometheus_config_file: /etc/prometheus/prometheus.yml
-    - role: prometheus.alertmanager
-      vars:
-          alertmanager_config_file: /etc/prometheus/alertmanager.yml
+   #- role: prometheus.prometheus.alertmanager
+    # vars:
+     # alertmanager_config_file: /etc/prometheus/alertmanager.yml
 
+- name: Setup Grafana
+  hosts: monitor
+  remote_user: deploy
+  become: yes
+  become_method: sudo
+    tasks:
+      - name: Pull Grafana Docker image
+        community.docker.docker_image:
+          name: grafana/grafana
+          tag: latest
+          source: pull
 
-grafana:
-  image: grafana/grafana:latest
-  restart: unless-stopped
-  ports:
-    - "3000:3000"
-    - name: Setup Grafana
-      hosts: monitor
-      remote_user: deploy
-      become: yes
-      become_method: sudo
-      tasks:
-        - name: Pull Grafana Docker image
-          community.docker.docker_image:
-            name: grafana/grafana
-            tag: latest
-            source: pull
-
-        - name: Run Grafana container
-          community.docker.docker_container:
-            name: grafana
-            image: grafana/grafana:latest
-            state: started
-            restart_policy: unless-stopped
-            ports:
-              - "3000:3000"
+      - name: Run Grafana container
+        community.docker.docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "3000:3000"
