@@ -14,10 +14,10 @@
     - monitor-setup-prometheus
     - role: prometheus.prometheus.prometheus
       vars:
-          promethus_config_file: /etc/prometheus/prometheus.yml
-    - role: prometheus.prometheus.alertmanager
+          prometheus_config_file: /etc/prometheus/prometheus.yml
+    - role: prometheus.alertmanager
       vars:
-          alertmanager_config_file: alertmanager.yml
+          alertmanager_config_file: /etc/prometheus/alertmanager.yml
 
 
 grafana:
