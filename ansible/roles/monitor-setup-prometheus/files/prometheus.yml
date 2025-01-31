@@ -6,9 +6,9 @@ scrape_configs:
   - job_name: "prometheus"
     static_configs:
       - targets: ["0.0.0.0:9090"]
-    - job_name: "alertmanager"
-    static_configs:
-      - targets: ["0.0.0.0:9093"]
+   # - job_name: "alertmanager"
+  #  static_configs:
+     # - targets: ["0.0.0.0:9093"]
   - job_name: "app"
     static_configs:
       - targets: ["https://micro-blog.tech:8000"]
