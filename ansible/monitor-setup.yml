@@ -39,3 +39,27 @@
         restart_policy: unless-stopped
         ports:
           - "3000:3000"
+        volumes:
+          - "/monitor-setup-prometheus/files/grafana.ini:/etc/grafana/grafana.ini"
+
+      
+    - name: Wait for Grafana to be available
+      uri:
+        url: "http://localhost:3000"
+        method: GET
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 10
+      delay: 5
+
+    - name: Create Grafana data source
+      community.grafana.grafana_datasource:
+        grafana_url: "http://localhost:3000"
+        grafana_user: "admin"
+        grafana_password: "admin"
+        name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://localhost:9090
+        is_default: true
