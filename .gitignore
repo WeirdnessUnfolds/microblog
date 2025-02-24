@@ -115,3 +115,4 @@ ansible/group_vars/local.yml
 Makefile
 ansible/group_vars/local.yml
 ansible/hosts
+ansible/roles/monitor-setup-prometheus/files/prometheus.yml
