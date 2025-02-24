@@ -22,7 +22,7 @@
         ip_configurations:
             - name: ipconfig1
               public_ip_address_name: "{{ iname }}-ip"
-        security_group: "{{ itype }}-sg"
+        network_security_group: "{{ itype }}-sg"
         tags: "{{ vmtags }}"
 
 -   name: Ensure "A" records for loadbalancer

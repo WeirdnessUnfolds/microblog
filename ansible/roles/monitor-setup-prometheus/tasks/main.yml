@@ -10,6 +10,9 @@
     src: files/alertmanager.yml
     dest: alertmanager.yml
 
-
+- name: Copy grafana.ini to the server
+  template:
+    src: files/grafana.ini
+    dest: grafana.ini
 
 
