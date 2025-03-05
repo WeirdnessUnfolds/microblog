@@ -43,7 +43,7 @@
     state: stopped
 
 - name: 'Get certificate'
-  command: "certbot certonly  --standalone --register-unsafely-without-email --agree-tos --non-interactive  --expand -d micro-blog.tech"
+  command: "certbot certonly  --standalone --register-unsafely-without-email --agree-tos --non-interactive  --expand --fullchain-path /etc/letsencrypt/live/microblogdev.tech/fullchain.pem -d microblogdev.tech"
   ignore_errors: true
 
 - name: Copy nginx config files to loadbalancer
