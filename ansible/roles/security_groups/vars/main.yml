@@ -9,13 +9,6 @@ sg_groups:
             priority: 1001
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'
-        -   name: NGINX_EXPORTER
-            protocol: Tcp
-            destination_port_range: 9113
-            access: Allow
-            priority: 1002
-            direction: Inbound
-            source_address_prefix: '0.0.0.0/0'
         -   name: HTTP
             protocol: Tcp
             destination_port_range: 80
@@ -97,5 +90,12 @@ sg_groups:
             destination_port_range: 9090
             access: Allow
             priority: 1005
+            direction: Inbound
+            source_address_prefix: '0.0.0.0/0'
+        -   name: NGINX_EXPORTER
+            protocol: Tcp
+            destination_port_range: 9113
+            access: Allow
+            priority: 1002
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'

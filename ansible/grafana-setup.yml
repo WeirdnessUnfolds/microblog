@@ -1,0 +1,62 @@
+- name: Setup Grafana
+  hosts: monitor
+  remote_user: deploy
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Pull Grafana Docker image
+      community.docker.docker_image:
+        name: grafana/grafana
+        tag: latest
+        source: pull
+
+    - name: Run nginx-prometheus-exporter container
+      community.docker.docker_container:
+        name: nginx-prometheus-exporter
+        image: nginx/nginx-prometheus-exporter:0.4.2
+        state: started
+        restart_policy: always
+        ports:
+          - "9113:9113"
+        command: 
+          -nginx.scrape-uri=https://microblogdev.tech/metrics
+          -nginx.retries=10
+          -nginx.ssl-verify=false
+          -web.telemetry-path=/prometheus
+
+
+    - name: Run Grafana container
+      community.docker.docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: unless-stopped
+        env:
+          GF_SERVER_DOMAIN: microblogdev.tech
+          GF_SERVER_ROOT_URL: https://microblogdev.tech/grafana
+        ports:
+          - "3000:3000"
+
+
+
+
+
+    - name: Wait for Grafana to be available
+      uri:
+        url: "https://microblogdev.tech/grafana/login"
+        method: GET
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 10
+      delay: 5  
+
+
+    - name: Import Grafana dashboard
+      community.grafana.grafana_dashboard:
+        grafana_url: "https://microblogdev.tech/grafana"
+        grafana_user: "admin"
+        grafana_password: "admin"
+        dashboard_id: 12767
+        state: present
+

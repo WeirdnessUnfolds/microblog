@@ -5,47 +5,25 @@
   become: yes
   become_method: sudo
   no_log: false
-  module_defaults:
-    group/community.grafana.grafana:
-      grafana_url: "http://localhost:3000"
-      grafana_user: "admin"
-      grafana_password: "admin"
   roles:
     - monitor-setup-prometheus
     - role: prometheus.prometheus.prometheus
       vars:
-          prometheus_config_file: /etc/prometheus/prometheus.yml
-   #- role: prometheus.prometheus.alertmanager
-    # vars:
-     # alertmanager_config_file: /etc/prometheus/alertmanager.yml
+        prometheus_config_file: prometheus.yml
+    # - role: prometheus.prometheus.alertmanager
+    #   vars:
+    #     alertmanager_config_file: /etc/prometheus/alertmanager.yml
 
-- name: Setup Grafana
+    
+- name: Check if Prometheus is running
   hosts: monitor
   remote_user: deploy
   become: yes
   become_method: sudo
-    tasks:
-      - name: Pull Grafana Docker image
-        community.docker.docker_image:
-          name: grafana/grafana
-          tag: latest
-          source: pull
-
-      - name: Run Grafana container
-        community.docker.docker_container:
-        name: grafana
-        image: grafana/grafana:latest
-        state: started
-        restart_policy: unless-stopped
-        ports:
-          - "3000:3000"
-        volumes:
-          - "/monitor-setup-prometheus/files/grafana.ini:/etc/grafana/grafana.ini"
-
-      
-    - name: Wait for Grafana to be available
+  tasks:
+    - name: Wait for Prometheus to be available
       uri:
-        url: "http://localhost:3000"
+        url: "http://localhost:9090/-/ready"
         method: GET
         status_code: 200
       register: result
@@ -53,13 +31,3 @@
       retries: 10
       delay: 5
 
-    - name: Create Grafana data source
-      community.grafana.grafana_datasource:
-        grafana_url: "http://localhost:3000"
-        grafana_user: "admin"
-        grafana_password: "admin"
-        name: Prometheus
-        type: prometheus
-        access: proxy
-        url: http://localhost:9090
-        is_default: true
