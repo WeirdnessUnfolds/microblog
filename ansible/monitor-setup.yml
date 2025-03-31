@@ -10,9 +10,9 @@
     - role: prometheus.prometheus.prometheus
       vars:
         prometheus_config_file: prometheus.yml
-    # - role: prometheus.prometheus.alertmanager
-    #   vars:
-    #     alertmanager_config_file: /etc/prometheus/alertmanager.yml
+    - role: prometheus.prometheus.alertmanager
+      vars:
+        alertmanager_config_file: alertmanager.yml
 
     
 - name: Check if Prometheus is running

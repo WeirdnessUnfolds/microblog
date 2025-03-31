@@ -17,7 +17,6 @@ from honeybadger.contrib import FlaskHoneybadger
 from prometheus_flask_exporter.multiprocess  import GunicornInternalPrometheusMetrics
 from app.config import ProdConfig, RequestFormatter
 
-
 metrics = GunicornInternalPrometheusMetrics.for_app_factory()
 db = SQLAlchemy()
 migrate = Migrate()
@@ -64,7 +63,7 @@ def create_app(config_class=ProdConfig):
             '[%(asctime)s %(levelname)s] %(remote_addr)s requested %(url)s\n: %(message)s [in %(module)s:%(lineno)d]'
         )
         default_handler.setFormatter(formatter)
-        app.logger.setLevel(logging.INFO)
+        app.logger.setLevel(logging.DEBUG)
 
     return app
 

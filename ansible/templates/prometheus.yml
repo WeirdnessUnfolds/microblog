@@ -9,7 +9,3 @@ scrape_configs:
     metrics_path: /prometheus
     static_configs:
       - targets: ["microblogdev.tech:9113"]
-  - job_name: "flask"
-    metrics_path: /metrics
-    static_configs:
-      - targets: ["microblogdev.tech:5000"]
