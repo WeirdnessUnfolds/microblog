@@ -3,6 +3,7 @@
   hosts: monitor
   remote_user: deploy
   become: yes
+  debugger: on_failed
   become_method: sudo
   no_log: false
   roles:
@@ -21,7 +22,25 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Wait for Prometheus to be available
+    - name: Pull Grafana Docker image
+      community.docker.docker_image:
+        name: grafana/grafana
+        tag: latest
+        source: pull
+
+    - name: Run Grafana container
+      community.docker.docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "3000:3000"
+        volumes:
+          - "/monitor-setup-prometheus/files/grafana.ini:/etc/grafana/grafana.ini"
+
+      
+    - name: Wait for Grafana to be available
       uri:
         url: "http://localhost:9090/-/ready"
         method: GET
