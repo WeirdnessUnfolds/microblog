@@ -63,7 +63,7 @@ def create_app(config_class=ProdConfig):
             '[%(asctime)s %(levelname)s] %(remote_addr)s requested %(url)s\n: %(message)s [in %(module)s:%(lineno)d]'
         )
         default_handler.setFormatter(formatter)
-        app.logger.setLevel(logging.DEBUG)
+        app.logger.setLevel(logging.INFO)
 
     return app
 

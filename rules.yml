@@ -1,22 +1,7 @@
-groups:
-  - name: "Alarm Alerts"
-    rules:
-      - alert: AlarmTriggered
-        expr: |
-          flask_http_request_duration_seconds_count{method="POST", path="/trigger_alarm", status="200"} > flask_http_request_duration_seconds_count{method="POST", path="/clear_alarm", status="200"}
-        for: 10s
-        labels:
-          severity: warning
-        annotations:
-          summary: "Alarm triggered"
-          description: "The /trigger_alarm endpoint has been triggered more times than /clear_alarm, triggering alarm."
+groups: 
+  - name: "More get requests than 20"
+  rules: 
+  - alert: Between20and25
+    expr: flask_http_request_total{method="GET",status="200"} > 20 and flask_http_request_total{method="GET",status="200"} < 25
+    for: 10s
 
-      - alert: AlarmCleared
-        expr: |
-          flask_http_request_duration_seconds_count{method="POST", path="/trigger_alarm", status="200"} == flask_http_request_duration_seconds_count{method="POST", path="/clear_alarm", status="200"}
-        for: 10s
-        labels:
-          severity: info
-        annotations:
-          summary: "Alarm cleared"
-          description: "The /trigger_alarm and /clear_alarm endpoints have been triggered the same number of times, clearing alarm."

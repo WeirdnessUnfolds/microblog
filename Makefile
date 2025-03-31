@@ -77,7 +77,8 @@ help:
 .PHONY: add-ssh
 add-ssh:
 	eval `ssh-agent -s`
-	ssh-add /root/.ssh/azure
+	ssh-add <path/too/ssh-key>
+
 # Runs bandit command for route app/
 .PHONY: bandit
 bandit:

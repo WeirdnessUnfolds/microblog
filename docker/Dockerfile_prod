@@ -9,8 +9,6 @@ COPY migrations migrations
 COPY requirements requirements
 COPY requirements.txt microblog.py boot.sh ./
 COPY gunicorn_config.py gunicorn_config.py
-
-
 RUN apk add --no-cache \
     gcc \
     musl-dev \
@@ -19,8 +17,7 @@ RUN apk add --no-cache \
     cargo \
     make \
     linux-headers \
-    python3-dev \
-    curl 
+    python3-dev
 
 RUN    python -m venv .venv
 RUN    .venv/bin/pip3 install -r requirements.txt
