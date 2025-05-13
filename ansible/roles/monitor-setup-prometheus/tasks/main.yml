@@ -19,8 +19,3 @@
   template:
     src: files/rules.yml
     dest: rules.yml
-
-#- name: Copy flaskdash.json to the server
- # template:
-   # src: files/dashboard.json
-  #  dest: dashboard.json

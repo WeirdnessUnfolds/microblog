@@ -22,10 +22,6 @@
         ports:
           - "3000:3000"
 
-
-
-
-
     - name: Wait for Grafana to be available
       uri:
         url: "https://microblogdev.tech/grafana/login"
@@ -36,15 +32,18 @@
       retries: 10
       delay: 5  
 
+      
+    - name: Add Prometheus datasource to Grafana
+      community.grafana.grafana_datasource:
+        grafana_url: "https://microblogdev.tech/grafana"
+        name: Prometheus
+        ds_type: prometheus
+        ds_url: "http://13.79.144.212:9090"
+        is_default: true
+        basic_auth_user: "admin"
+        basic_auth_password: "admin"
 
-    - name: Import Flask Exporter Grafana dashboard from JSON file
-      community.grafana.grafana_dashboard:
-        grafana_url: "http://localhost:3000"
-        grafana_user: "admin"
-        grafana_password: "admin"
-        state: present
-        overwrite: true
-        path: "dashboard.json"
+
 
     - name: Import Nginx Exporter Grafana dashboard
       community.grafana.grafana_dashboard:
@@ -61,12 +60,3 @@
         grafana_password: "admin"
         dashboard_id: 9578
         state: present
-      
-    - name: Import Flask Exporter Grafana dashboard
-      community.grafana.grafana_dashboard:
-        grafana_url: "https://microblogdev.tech/grafana"
-        grafana_user: "admin"
-        grafana_password: "admin"
-        dashboard_id: 7582
-        state: present
-

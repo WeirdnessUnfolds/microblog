@@ -37,7 +37,22 @@ http {
       
        location /metrics {
            stub_status on;
-           }
+       }
+
+       location /metrics/flask {
+           proxy_pass http://app-hosts/metrics;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+       location /metrics/alertmanager {
+           proxy_pass http://13.79.144.212:9093/metrics;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
 	location /grafana/ {
 		proxy_pass http://13.79.144.212:3000/;
 		proxy_set_header Host $host;
