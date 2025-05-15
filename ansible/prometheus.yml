@@ -14,5 +14,6 @@ scrape_configs:
     static_configs:
       - targets: ["microblogdev.tech:5000"]
   - job_name: "alertmanager"
+    metrics_path: /metrics/alertmanager
     static_configs:
-      - targets: ["0.0.0.0:9093"]
+    targets: ["0.0.0.0:9093"]
