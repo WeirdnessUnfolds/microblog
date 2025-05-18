@@ -1,8 +1,0 @@
-prometheus_alertmanager_config: |
-  route:
-    receiver: webhook_receiver
-  receivers:
-    - name: webhook_receiver
-      webhook_configs:
-        - url: https://webhook.site/79ad46bf-9c61-46ee-85df-66a5f30e80df
-          send_resolved: false

@@ -19,3 +19,16 @@
   template:
     src: files/rules.yml
     dest: rules.yml
+
+- name: Copy docker-compose.yml to the server
+  template:
+    src: files/docker-compose.yml
+    dest: docker-compose.yml
+
+
+- name: Start monitoring
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: home/deploy
+  become: yes
+
