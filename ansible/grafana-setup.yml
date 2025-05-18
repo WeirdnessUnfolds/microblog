@@ -38,7 +38,7 @@
         grafana_url: "https://microblogdev.tech/grafana"
         name: Prometheus
         ds_type: prometheus
-        ds_url: "http://13.79.144.212:9090"
+        ds_url: "{{monitor[0]}}:9090"
         is_default: true
         basic_auth_user: "admin"
         basic_auth_password: "admin"
