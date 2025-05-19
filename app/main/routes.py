@@ -32,18 +32,7 @@ def trigger_alarm():
     global alarm_active
     alarm_active = True
     current_app.logger.info("Alarm triggered.")
-    return "Alarm triggered", 200
-
-@bp.route("/clear_alarm", methods=["POST"])
-def clear_alarm():
-    """
-    Avaktivera larmet
-    """
-    global alarm_active
-    alarm_active = False
-    current_app.logger.info("Alarm cleared.")
-    return "Alarm cleared", 200
-
+    return "Alarm triggered", 205
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])

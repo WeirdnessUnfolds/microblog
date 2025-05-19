@@ -3,7 +3,6 @@
 
 {% block app_content %}
     <button onclick="triggerAlarm()">Trigger Alarm</button>
-    <button onclick="clearAlarm()">Trigger Alarm</button>
     <h1>Sign In</h1>
     <div class="row">
         <div class="col-md-4">
@@ -25,22 +24,6 @@
                 .catch(error => {
                     console.error('Error:', error);
                     alert("An error occurred while triggering the alarm.");
-                });
-        }
-
-        function clearAlarm() {
-            console.log("Clearing alarm...")
-            fetch('clear_alarm', {method: 'POST'})
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Alarm cleared successfully.");
-                    } else {
-                        console.log("Failed to clear alarm.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("An error occurred while clearing the alarm.");
                 });
         }
     </script>
