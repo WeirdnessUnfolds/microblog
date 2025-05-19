@@ -1,0 +1,62 @@
+- name: Setup Grafana
+  hosts: monitor
+  remote_user: deploy
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Pull Grafana Docker image
+      community.docker.docker_image:
+        name: grafana/grafana
+        tag: latest
+        source: pull
+
+    - name: Run Grafana container
+      community.docker.docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: unless-stopped
+        env:
+          GF_SERVER_DOMAIN: microblogdev.tech
+          GF_SERVER_ROOT_URL: https://microblogdev.tech/grafana
+        ports:
+          - "3000:3000"
+
+    - name: Wait for Grafana to be available
+      uri:
+        url: "https://microblogdev.tech/grafana/login"
+        method: GET
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 10
+      delay: 5  
+
+      
+    - name: Add Prometheus datasource to Grafana
+      community.grafana.grafana_datasource:
+        grafana_url: "https://microblogdev.tech/grafana"
+        name: Prometheus
+        ds_type: prometheus
+        ds_url: "{{monitor[0]}}:9090"
+        is_default: true
+        basic_auth_user: "admin"
+        basic_auth_password: "admin"
+
+
+
+    - name: Import Nginx Exporter Grafana dashboard
+      community.grafana.grafana_dashboard:
+        grafana_url: "https://microblogdev.tech/grafana"
+        grafana_user: "admin"
+        grafana_password: "admin"
+        dashboard_id: 12767
+        state: present
+
+    - name: Import Grafana Alertmanager dashboard
+      community.grafana.grafana_dashboard:
+        grafana_url: "https://microblogdev.tech/grafana"
+        grafana_user: "admin"
+        grafana_password: "admin"
+        dashboard_id: 9578
+        state: present

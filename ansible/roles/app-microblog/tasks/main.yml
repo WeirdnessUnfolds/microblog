@@ -10,7 +10,7 @@
 - name: Start Microblog container
   docker_container:
     name: microblog
-    image: weirdnessunfolds/devops:v11.2.1
+    image: weirdnessunfolds/devops:v11.2.2
     state: started
     restart_policy: always
     env:

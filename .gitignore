@@ -114,3 +114,6 @@ ansible/group_vars/all.yml
 ansible/group_vars/local.yml
 Makefile
 ansible/group_vars/local.yml
+ansible/hosts
+ansible/roles/monitor-setup-prometheus/files/prometheus.yml
+ansible/roles/nginx-config/tasks/main.yml

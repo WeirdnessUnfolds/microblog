@@ -17,8 +17,7 @@ from honeybadger.contrib import FlaskHoneybadger
 from prometheus_flask_exporter.multiprocess  import GunicornInternalPrometheusMetrics
 from app.config import ProdConfig, RequestFormatter
 
-
-metrics = GunicornInternalPrometheusMetrics.for_app_factory()
+metrics = GunicornInternalPrometheusMetrics.for_app_factory(group_by='path')
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()

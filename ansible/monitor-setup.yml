@@ -4,8 +4,13 @@
   remote_user: deploy
   become: yes
   become_method: sudo
+  no_log: false
   roles:
     - monitor-setup-prometheus
-    - role: prometheus.prometheus.prometheus
-      vars:
-          promethus_config_file: /etc/prometheus/prometheus.yml
+    #- role: prometheus.prometheus.prometheus
+     # vars:
+      #    prometheus_config_file: prometheus.yml
+          
+    #- role: prometheus.prometheus.alertmanager
+     # vars:
+          # alertmanager_config_file: alertmanager.yml

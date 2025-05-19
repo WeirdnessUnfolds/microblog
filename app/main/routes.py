@@ -10,6 +10,8 @@ from app.models import User, Post
 from app.main import bp
 
 
+alarm_active = False
+
 
 @bp.before_request
 def before_request():
@@ -22,6 +24,15 @@ def before_request():
         db.session.commit()
 
 
+@bp.route("/trigger_alarm", methods=["POST"])
+def trigger_alarm():
+    """
+    Aktivera larmet
+    """
+    global alarm_active
+    alarm_active = True
+    current_app.logger.info("Alarm triggered.")
+    return "Alarm triggered", 205
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])

@@ -1,0 +1,11 @@
+groups:
+  - name: "POST requests status 205 count check"
+    rules:
+      - alert: Between40and50
+        expr: flask_http_request_total{method="POST",status="205"} > 2 and flask_http_request_total{method="POST",status="205"} < 8
+        for: 0s
+        labels:
+          severity: warning
+        annotations:
+          summary: "POST requests with status 205 between 3 and 7"
+          description: "Number of POST requests with status 205 is greater than 2 but less than 8 ."

@@ -1,7 +1,34 @@
 
-- name: Copy nginx config files to the server
+- name: Copy prometheus config files to the server
   template:
     src: files/prometheus.yml
     dest: prometheus.yml
 
+
+- name: Copy alertmanager config files to the server
+  template:
+    src: files/alertmanager.yml
+    dest: alertmanager.yml
+
+- name: Copy grafana.ini to the server
+  template:
+    src: files/grafana.ini
+    dest: grafana.ini
+
+- name : Copy rules.yml to the server
+  template:
+    src: files/rules.yml
+    dest: rules.yml
+
+- name: Copy docker-compose.yml to the server
+  template:
+    src: files/docker-compose.yml
+    dest: docker-compose.yml
+
+
+- name: Start monitoring
+  ansible.builtin.command:
+    cmd: docker-compose up -d
+    chdir: home/deploy
+  become: yes
 
