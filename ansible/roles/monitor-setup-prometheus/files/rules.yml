@@ -1,22 +1,11 @@
 groups:
-  - name: "Alarm Alerts"
+  - name: "POST requests status 205 count check"
     rules:
-      - alert: AlarmTriggered
-        expr: |
-          flask_http_request_duration_seconds_count{method="POST", path="/trigger_alarm", status="200"} > flask_http_request_duration_seconds_count{method="POST", path="/clear_alarm", status="200"}
-        for: 10s
+      - alert: Between40and50
+        expr: flask_http_request_total{method="POST",status="205"} > 2 and flask_http_request_total{method="POST",status="205"} < 8
+        for: 0s
         labels:
           severity: warning
         annotations:
-          summary: "Alarm triggered"
-          description: "The /trigger_alarm endpoint has been triggered more times than /clear_alarm, triggering alarm."
-
-      - alert: AlarmCleared
-        expr: |
-          flask_http_request_duration_seconds_count{method="POST", path="/trigger_alarm", status="200"} == flask_http_request_duration_seconds_count{method="POST", path="/clear_alarm", status="200"}
-        for: 10s
-        labels:
-          severity: info
-        annotations:
-          summary: "Alarm cleared"
-          description: "The /trigger_alarm and /clear_alarm endpoints have been triggered the same number of times, clearing alarm."
+          summary: "POST requests with status 205 between 3 and 7"
+          description: "Number of POST requests with status 205 is greater than 2 but less than 8 ."
